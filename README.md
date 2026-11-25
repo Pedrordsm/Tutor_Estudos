@@ -1,6 +1,8 @@
 # Módulo 4 — Tutor de estudos
 
-Módulo conversacional do ecossistema de agentes **"Do diploma ao primeiro emprego"** (Inteligência Artificial — IFES Campus Serra).
+Módulo conversacional do ecossistema de agentes **"Do diploma ao primeiro emprego"** (Inteligência Artificial — IFES Campus Serra · BSI).
+
+**Grupo 4:** Samiya, Tertuliano, Pedro Renã, Kaio e Heitor.
 
 Recebe `Lacunas` + `Curriculo`, conduz a tutoria com um **Time Agno** (`Planejador`, `Professor` e `Avaliador`), executa exercícios de código em sandbox isolada e produz `PlanoEstudos` + `RegistroProgresso` no contrato `tutor_estudos`.
 
@@ -31,57 +33,67 @@ Recebe `Lacunas` + `Curriculo`, conduz a tutoria com um **Time Agno** (`Planejad
 
 ## Instalação
 
-```cmd
+Requer Python 3.10 ou superior:
+
+```bash
 python -m venv .venv
-.venv\Scripts\activate
-pip install -e caminho\do\kit\contratos
-pip install -e ".[ollama,anthropic,testes]"
+source .venv/bin/activate          # Windows: .venv\Scripts\activate
+pip install -e caminho/do/kit/contratos
+pip install -e ".[ollama,anthropic,groq,testes]"
 ```
 
 ## Configuração
 
-Copie `.env.exemplo` para `.env` e escolha o provedor:
+Copie `.env.exemplo` para `.env` e escolha o provedor desejado em `MODELO_LLM`:
 
-- **Ollama (local / gratuito):** `MODELO_LLM=ollama:llama3.2` (com Ollama em execução).
+- **Ollama (local / gratuito):** `MODELO_LLM=ollama:qwen2.5:7b` ou `ollama:llama3.2` (com o Ollama em execução).
+- **Groq (camada gratuita):** `MODELO_LLM=groq:llama-3.3-70b-versatile` e `GROQ_API_KEY=...`.
 - **Anthropic (Claude):** `MODELO_LLM=anthropic:claude-sonnet-4-5` e `ANTHROPIC_API_KEY=...`.
 
 > Nunca envie o `.env` para o repositório.
 
 ## Execução
 
+> Todos os comandos abaixo podem ser executados tanto com `python -m tutor_estudos ...` (recomendado no Windows com Device Guard) quanto com o atalho `tutor-estudos ...`.
+
 ### Conversar no terminal e gerar saídas
 
-```cmd
-python -m tutor_estudos conversar --entrada ..\kit-ecossistema-alunos-v1.0\kit-ecossistema\exemplos\f01\lacunas.json ..\kit-ecossistema-alunos-v1.0\kit-ecossistema\exemplos\f01\curriculo.json --saida-dir saidas\f01
+```bash
+python -m tutor_estudos conversar \
+  --entrada caminho/do/kit/exemplos/f01/lacunas.json caminho/do/kit/exemplos/f01/curriculo.json \
+  --saida-dir saidas/f01
 ```
 
 Digite `/fim` para gravar `plano_estudos.json` e `registro_progresso.json`. Para continuar a mesma sessão depois (F8):
 
-```cmd
-python -m tutor_estudos conversar --sessao <ID_DA_SESSAO> --saida-dir saidas\f01
+```bash
+python -m tutor_estudos conversar --sessao <ID_DA_SESSAO> --saida-dir saidas/f01
 ```
 
 ### Subir o servidor AgentOS
 
-```cmd
+```bash
 python -m tutor_estudos servir
 ```
 
-Documentação interativa em `http://localhost:7777/docs` e painel gráfico em `os.agno.com` apontando para `http://localhost:7777`.
+- Documentação interativa das rotas do contrato (`POST /contrato/iniciar` e `GET /contrato/resultado/{id_sessao}`): `http://localhost:7777/docs`.
+- Interface gráfica: conecte `http://localhost:7777` em `https://os.agno.com` e selecione o time **Tutor de estudos**.
 
 ### Verificar conformidade com o contrato
 
-```cmd
-python -m carreira_contratos.verificar tutor_estudos --entrada ..\kit-ecossistema-alunos-v1.0\kit-ecossistema\exemplos\f01\lacunas.json ..\kit-ecossistema-alunos-v1.0\kit-ecossistema\exemplos\f01\curriculo.json --saida saidas\f01\plano_estudos.json saidas\f01\registro_progresso.json
+```bash
+python -m carreira_contratos.verificar tutor_estudos \
+  --entrada caminho/do/kit/exemplos/f01/lacunas.json caminho/do/kit/exemplos/f01/curriculo.json \
+  --saida saidas/f01/plano_estudos.json saidas/f01/registro_progresso.json
 ```
 
 ## Testes automatizados
 
-```cmd
+```bash
 python -m pytest -v
 ```
 
 ## Limitações conhecidas
 
 - Exercícios de linguagens sem runtime local na sandbox (como medidas DAX do Power BI) são corrigidos conceitualmente pelo agente avaliador, sem execução.
-- Modelos locais menores (ex.: `llama3.2` 3B) podem exigir mais tentativas na extração estruturada quando comparados a modelos maiores (ex.: Claude).
+- Modelos locais muito pequenos (como `llama3.2` 3B) podem apresentar instabilidade em *tool calling* dentro do `Team` (ex.: alucinação de chamada de ferramenta e repetição em loop no histórico) e exigir novas tentativas na extração estruturada; recomenda-se usar modelos com suporte mais robusto a ferramentas (como Claude, Groq 70B ou `qwen2.5:7b`). As falhas observadas estão registradas em `relatorio/anotacoes_falhas.md`.
