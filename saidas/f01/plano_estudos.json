@@ -1,0 +1,46 @@
+{
+  "cabecalho": {
+    "versao_contrato": "1.0",
+    "modulo": "tutor_estudos",
+    "gerado_em": "2026-11-25T14:59:16.731004-03:00",
+    "id_formando": "f01"
+  },
+  "horas_semanais": 37.0,
+  "data_inicio": "2026-11-25",
+  "data_prevista_conclusao": "2026-12-02",
+  "topicos": [
+    {
+      "ordem": 1,
+      "habilidade": "SQL",
+      "titulo": "Conceitos de SQL",
+      "objetivos": [],
+      "prerequisitos": [],
+      "horas_estimadas": 10.0,
+      "atividades": [],
+      "projeto_pratico": null,
+      "situacao": "pendente"
+    },
+    {
+      "ordem": 2,
+      "habilidade": "Power BI",
+      "titulo": "Introdução ao Power BI",
+      "objetivos": [],
+      "prerequisitos": [],
+      "horas_estimadas": 12.0,
+      "atividades": [],
+      "projeto_pratico": null,
+      "situacao": "pendente"
+    },
+    {
+      "ordem": 3,
+      "habilidade": "Python",
+      "titulo": "Básico de Python",
+      "objetivos": [],
+      "prerequisitos": [],
+      "horas_estimadas": 15.0,
+      "atividades": [],
+      "projeto_pratico": null,
+      "situacao": "pendente"
+    }
+  ]
+}

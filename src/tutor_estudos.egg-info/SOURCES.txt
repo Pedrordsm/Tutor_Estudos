@@ -1,0 +1,17 @@
+README.md
+pyproject.toml
+src/tutor_estudos/__init__.py
+src/tutor_estudos/__main__.py
+src/tutor_estudos/calculos.py
+src/tutor_estudos/cli.py
+src/tutor_estudos/config.py
+src/tutor_estudos/modelos.py
+src/tutor_estudos/servico.py
+src/tutor_estudos/servidor.py
+src/tutor_estudos.egg-info/PKG-INFO
+src/tutor_estudos.egg-info/SOURCES.txt
+src/tutor_estudos.egg-info/dependency_links.txt
+src/tutor_estudos.egg-info/entry_points.txt
+src/tutor_estudos.egg-info/requires.txt
+src/tutor_estudos.egg-info/top_level.txt
+tests/test_modulo.py
