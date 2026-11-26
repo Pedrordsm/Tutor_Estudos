@@ -97,3 +97,4 @@ python -m pytest -v
 
 - Exercícios de linguagens sem runtime local na sandbox (como medidas DAX do Power BI) são corrigidos conceitualmente pelo agente avaliador, sem execução.
 - Modelos locais muito pequenos (como `llama3.2` 3B) podem apresentar instabilidade em *tool calling* dentro do `Team` (ex.: alucinação de chamada de ferramenta e repetição em loop no histórico) e exigir novas tentativas na extração estruturada; recomenda-se usar modelos com suporte mais robusto a ferramentas (como Claude, Groq 70B ou `qwen2.5:7b`). As falhas observadas estão registradas em `relatorio/anotacoes_falhas.md`.
+"# Tutor_Estudos_backup" 
