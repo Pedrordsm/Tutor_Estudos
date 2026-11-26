@@ -1,0 +1,23 @@
+{
+  "id_formando": "f02",
+  "lacunas": "exemplos/f02/lacunas.json",
+  "curriculo": "exemplos/f02/curriculo.json",
+  "sessoes": [
+    [
+      "Tenho 10 horas por semana. Já fiz um CRUD simples em Django e consultas SQL básicas; testes automatizados e AWS eu nunca usei.",
+      "Pode montar o meu plano de estudos com essa disponibilidade?",
+      "Aprovo o plano. Pode dar uma aula de SQL sobre JOIN e agregação?",
+      "Corrija este exercício de código, executando a consulta. Enunciado: Escreva uma consulta que retorne o nome de cada cliente e o total gasto, considerando as tabelas clientes(id, nome) e pedidos(id, cliente_id, valor), incluindo clientes sem pedidos com total zero. Minha resposta: SELECT c.nome, COALESCE(SUM(p.valor), 0) AS total FROM clientes c LEFT JOIN pedidos p ON p.cliente_id = c.id GROUP BY c.id, c.nome;",
+      "Corrija este exercício objetivo. Enunciado: Qual cláusula filtra grupos depois da agregação? (a) WHERE (b) HAVING (c) ORDER BY. Minha resposta: (b)",
+      "Vamos encerrar a sessão de hoje."
+    ],
+    [
+      "Voltei. Onde paramos?",
+      "Agora quero uma aula de testes automatizados com pytest.",
+      "Corrija este exercício de código, executando os testes. Enunciado: Escreva um teste com pytest para a função soma(a, b), cobrindo pelo menos um caso com número negativo. A função é: def soma(a, b): return a + b. Minha resposta: def test_soma():\n    assert soma(2, 3) == 5\n    assert soma(-1, 1) == 0",
+      "Corrija este exercício. Enunciado: Para que serve o comando python manage.py makemigrations? Minha resposta: Para aplicar as mudanças no banco de dados.",
+      "Sugira um projeto prático com Django e testes que gere evidência para o meu currículo.",
+      "Vamos encerrar por hoje."
+    ]
+  ]
+}

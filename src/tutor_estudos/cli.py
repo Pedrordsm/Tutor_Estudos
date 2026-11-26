@@ -88,6 +88,41 @@ def cmd_conversar(args, entrada=input) -> int:
     return 0
 
 
+def cmd_simular(args) -> int:
+    """Conduz as sessões de estudo com as falas de um roteiro (o grupo no papel do formando).
+
+    Gera as saídas exigidas no caderno (seção 11: pelo menos duas sessões por formando)
+    e grava a transcrição completa da conversa, para a demonstração e o relatório.
+    """
+    import json
+
+    roteiro = json.loads(Path(args.roteiro).read_text(encoding="utf-8"))
+    kit = Path(args.kit)
+    lacunas, curriculo = ler_entradas([kit / roteiro["lacunas"], kit / roteiro["curriculo"]])
+    servico, _ = criar_servico()
+
+    id_sessao, mensagem = servico.iniciar(lacunas, curriculo)
+    linhas = [f"# Transcrição — {roteiro['id_formando']}", "", f"Sessão do AgentOS: `{id_sessao}`", ""]
+    linhas += ["## Sessão 1", "", f"**Tutor:** {mensagem}", ""]
+    print(f"Sessão {id_sessao}\n\nTutor: {mensagem}")
+
+    for n, falas in enumerate(roteiro["sessoes"], start=1):
+        if n > 1:
+            linhas += [f"## Sessão {n}", ""]
+        for fala in falas:
+            resposta = servico.conversar(id_sessao, fala)
+            print(f"\nFormando: {fala}\n\nTutor: {resposta}")
+            linhas += [f"**Formando:** {fala}", "", f"**Tutor:** {resposta}", ""]
+
+    plano, progresso = servico.resultado(id_sessao)
+    args.saida_dir.mkdir(parents=True, exist_ok=True)
+    salvar(plano, args.saida_dir / "plano_estudos.json")
+    salvar(progresso, args.saida_dir / "registro_progresso.json")
+    (args.saida_dir / "transcricao.md").write_text("\n".join(linhas), encoding="utf-8")
+    print(f"\nSaídas gravadas em {args.saida_dir} (plano_estudos.json, registro_progresso.json, transcricao.md)")
+    return 0
+
+
 def cmd_servir(args) -> int:
     from .servidor import criar_agent_os
 
@@ -128,8 +163,13 @@ def main(argv=None) -> int:
     p_serv = sub.add_parser("servir", help="inicia o servidor AgentOS com as rotas do contrato")
     p_serv.add_argument("--porta", type=int, default=None, help="porta do servidor (padrão: PORTA do .env)")
 
+    p_sim = sub.add_parser("simular", help="conduz as sessões com as falas de um roteiro e grava as saídas")
+    p_sim.add_argument("--roteiro", type=Path, required=True, help="arquivo de roteiro (ex.: casos_teste/roteiros/f01.json)")
+    p_sim.add_argument("--kit", type=Path, default=Path("../kit-ecossistema"), help="pasta do kit do trabalho")
+    p_sim.add_argument("--saida-dir", type=Path, required=True, help="pasta das saídas (ex.: saidas/f01)")
+
     args = parser.parse_args(argv)
-    comandos = {"conversar": cmd_conversar, "servir": cmd_servir}
+    comandos = {"conversar": cmd_conversar, "servir": cmd_servir, "simular": cmd_simular}
     try:
         return comandos[args.comando](args)
     except (ErroConfiguracao, SessaoInexistente, ValueError, ValidationError, OSError) as e:

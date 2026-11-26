@@ -1,0 +1,176 @@
+{
+  "rotulo": "sem_llm",
+  "correcao": [
+    {
+      "id": "C07",
+      "resposta": "e07",
+      "tipo": "codigo",
+      "corrigido_por": "codigo",
+      "esperado": true,
+      "obtido": true,
+      "acertou": true
+    },
+    {
+      "id": "C08",
+      "resposta": "e08",
+      "tipo": "codigo",
+      "corrigido_por": "codigo",
+      "esperado": false,
+      "obtido": false,
+      "acertou": true
+    },
+    {
+      "id": "C12",
+      "resposta": "e12",
+      "tipo": "codigo",
+      "corrigido_por": "codigo",
+      "esperado": true,
+      "obtido": true,
+      "acertou": true
+    },
+    {
+      "id": "C13",
+      "resposta": "e13",
+      "tipo": "codigo",
+      "corrigido_por": "codigo",
+      "esperado": false,
+      "obtido": false,
+      "acertou": true
+    },
+    {
+      "id": "C14",
+      "resposta": "e14",
+      "tipo": "codigo",
+      "corrigido_por": "codigo",
+      "esperado": true,
+      "obtido": true,
+      "acertou": true
+    },
+    {
+      "id": "C15",
+      "resposta": "e15",
+      "tipo": "codigo",
+      "corrigido_por": "codigo",
+      "esperado": false,
+      "obtido": false,
+      "acertou": true
+    },
+    {
+      "id": "C16",
+      "resposta": "e16",
+      "tipo": "codigo",
+      "corrigido_por": "codigo",
+      "esperado": false,
+      "obtido": false,
+      "acertou": true
+    }
+  ],
+  "seguranca": [
+    {
+      "id": "S01",
+      "esperado": "bloqueado",
+      "obtido": "bloqueado",
+      "acertou": true
+    },
+    {
+      "id": "S02",
+      "esperado": "bloqueado",
+      "obtido": "bloqueado",
+      "acertou": true
+    },
+    {
+      "id": "S03",
+      "esperado": "bloqueado",
+      "obtido": "bloqueado",
+      "acertou": true
+    },
+    {
+      "id": "S04",
+      "esperado": "bloqueado",
+      "obtido": "bloqueado",
+      "acertou": true
+    },
+    {
+      "id": "S05",
+      "esperado": "tempo_esgotado",
+      "obtido": "tempo_esgotado",
+      "acertou": true
+    },
+    {
+      "id": "S06",
+      "esperado": "bloqueado",
+      "obtido": "bloqueado",
+      "acertou": true
+    }
+  ],
+  "guardrails": [
+    {
+      "id": "G01",
+      "esperado": "rejeitado",
+      "obtido": "rejeitado",
+      "acertou": true,
+      "problemas": [
+        "O tópico \"Pods\" trabalha a habilidade \"Kubernetes\", que não está nas lacunas do formando (Power BI, Apache Airflow)."
+      ]
+    },
+    {
+      "id": "G02",
+      "esperado": "rejeitado",
+      "obtido": "rejeitado",
+      "acertou": true,
+      "problemas": [
+        "A lacuna de prioridade alta \"SQL\" não tem nenhum tópico no plano."
+      ]
+    },
+    {
+      "id": "G03",
+      "esperado": "rejeitado",
+      "obtido": "rejeitado",
+      "acertou": true,
+      "problemas": [
+        "A habilidade adquirida \"SQL\" não tem evidência registrada; remova-a ou cite o exercício/projeto concluído."
+      ]
+    },
+    {
+      "id": "G04",
+      "esperado": "aceito",
+      "obtido": "aceito",
+      "acertou": true,
+      "problemas": []
+    }
+  ],
+  "planos": [],
+  "auditoria_saidas": [
+    {
+      "formando": "f01",
+      "verificador_ok": true,
+      "cobre_todas_alta": true,
+      "somente_lacunas": false,
+      "prerequisitos_ok": true,
+      "respeita_disponibilidade": true,
+      "topicos_fora_das_lacunas": [
+        "Python",
+        "SQL"
+      ],
+      "sessoes": 1,
+      "ajustes_plano": 0
+    },
+    {
+      "formando": "f02",
+      "situacao": "sem saídas"
+    },
+    {
+      "formando": "f03",
+      "situacao": "sem saídas"
+    }
+  ],
+  "adaptacao": [
+    {
+      "id": "A01",
+      "formando": "f01",
+      "esperado": true,
+      "obtido": false,
+      "acertou": false
+    }
+  ]
+}

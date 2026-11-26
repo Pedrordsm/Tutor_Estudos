@@ -20,6 +20,7 @@ from .sandbox import (
     executar_codigo_python,
     executar_python_isolado,
     executar_sql_em_memoria,
+    executar_sql_memoria,
 )
 
 ID_TIME_TUTOR = "tutor-estudos-time"
@@ -276,14 +277,38 @@ class ServicoTutor:
 
     # ------------------------------------------------------------ avaliação unitária (útil para Fase 4)
 
+    def planejar(self, lacunas: Lacunas, curriculo: Curriculo, horas_semanais: float) -> PlanoEstudos:
+        """Gera o plano direto das entradas e da disponibilidade (usado nos casos de teste de plano)."""
+        prompt = (
+            _contexto(lacunas, curriculo)
+            + f"\n\nO formando informou disponibilidade de {horas_semanais:g} horas por semana. "
+            "Monte o plano de estudos completo para as lacunas."
+        )
+        rascunho = self._gerar_verificado(
+            self.extrator_plano, RascunhoPlano, prompt, lambda r: verificar_plano(r, lacunas)
+        )
+        return montar_plano(rascunho, lacunas, curriculo.cabecalho.id_formando)
+
     def avaliar_exercicio(
         self,
         enunciado: str,
         tipo: TipoExercicio,
         resposta_formando: str,
         testes: Optional[str] = None,
+        sql_setup: Optional[str] = None,
+        sql_referencia: Optional[str] = None,
     ) -> Exercicio:
-        """Avalia uma resposta individual (usando sandbox isolada quando há testes de código Python)."""
+        """Avalia uma resposta individual.
+
+        Correção feita em código sempre que possível:
+        - Python com `testes`: executa na sandbox isolada;
+        - SQL com `sql_setup` e `sql_referencia`: compara o resultado da consulta do formando
+          com o da consulta de referência num SQLite em memória.
+        Os demais casos são corrigidos pelo modelo (corretor estruturado).
+        """
+        if tipo == "codigo" and sql_setup and sql_referencia:
+            return self._avaliar_sql(enunciado, resposta_formando, sql_setup, sql_referencia)
+
         if tipo == "codigo" and testes:
             res = executar_python_isolado(resposta_formando, testes, timeout=self.timeout_sandbox)
             feedback = "Todos os testes passaram na execução isolada." if res.passou else res.erro
@@ -309,3 +334,20 @@ class ServicoTutor:
             correto=aval.correto,
             feedback=aval.feedback,
         )
+
+    @staticmethod
+    def _avaliar_sql(enunciado: str, resposta: str, setup: str, referencia: str) -> Exercicio:
+        esperado = executar_sql_memoria(referencia, setup)
+        obtido = executar_sql_memoria(resposta, setup)
+        if not obtido.passou:
+            correto, feedback = False, f"A consulta não executou: {obtido.erro}"
+        else:
+            linhas_esperadas = sorted(map(tuple, json.loads(esperado.saida)["linhas"]))
+            linhas_obtidas = sorted(map(tuple, json.loads(obtido.saida)["linhas"]))
+            correto = linhas_obtidas == linhas_esperadas
+            feedback = (
+                "A consulta devolve exatamente o resultado esperado nos dados de teste."
+                if correto
+                else f"Resultado diferente do esperado nos dados de teste: esperado {linhas_esperadas}, obtido {linhas_obtidas}."
+            )
+        return Exercicio(enunciado=enunciado, tipo="codigo", resposta_formando=resposta, correto=correto, feedback=feedback)

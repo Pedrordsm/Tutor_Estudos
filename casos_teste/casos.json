@@ -1,0 +1,54 @@
+{
+  "descricao": "Casos de teste do Módulo 4 (Tutor de estudos). O campo 'esperado' de cada caso foi definido pelo grupo ANTES da execução do sistema (gabarito registrado em 26/11/2026). Os casos C01-C20 usam as 20 respostas simuladas de insumos/m4_tutor_estudos/respostas_simuladas.json do kit; os demais são casos próprios do grupo.",
+  "registrado_em": "2026-11-26",
+  "correcao": [
+    {"id": "C01", "resposta": "e01", "esperado": true,  "motivo": "Definição correta de tabela fato (eventos + medidas + chaves para dimensões)."},
+    {"id": "C02", "resposta": "e02", "esperado": false, "motivo": "Dimensão Produto x fato Vendas é um para muitos (b), não muitos para muitos."},
+    {"id": "C03", "resposta": "e03", "esperado": true,  "motivo": "DIVIDE(SUM(Vendas[Valor]), DISTINCTCOUNT(Vendas[IdPedido])) é exatamente o pedido."},
+    {"id": "C04", "resposta": "e04", "esperado": false, "motivo": "COUNT(Vendas[Valor]) conta linhas, não pedidos distintos."},
+    {"id": "C05", "resposta": "e05", "esperado": true,  "motivo": "Definição correta de DAG."},
+    {"id": "C06", "resposta": "e06", "esperado": false, "motivo": "schedule define a periodicidade de execução, não o número de tarefas."},
+    {"id": "C07", "resposta": "e07", "esperado": true,  "motivo": "LEFT JOIN + COALESCE inclui clientes sem pedidos com total zero.",
+     "sql_setup": "CREATE TABLE clientes (id INTEGER, nome TEXT); CREATE TABLE pedidos (id INTEGER, cliente_id INTEGER, valor REAL); INSERT INTO clientes VALUES (1, 'Ana'), (2, 'Bruno'), (3, 'Carla'); INSERT INTO pedidos VALUES (1, 1, 100.0), (2, 1, 50.0), (3, 3, 30.0);",
+     "sql_referencia": "SELECT c.nome, COALESCE(SUM(p.valor), 0) AS total FROM clientes c LEFT JOIN pedidos p ON p.cliente_id = c.id GROUP BY c.id, c.nome;"},
+    {"id": "C08", "resposta": "e08", "esperado": false, "motivo": "INNER JOIN exclui clientes sem pedidos (Bruno some do resultado).",
+     "sql_setup": "CREATE TABLE clientes (id INTEGER, nome TEXT); CREATE TABLE pedidos (id INTEGER, cliente_id INTEGER, valor REAL); INSERT INTO clientes VALUES (1, 'Ana'), (2, 'Bruno'), (3, 'Carla'); INSERT INTO pedidos VALUES (1, 1, 100.0), (2, 1, 50.0), (3, 3, 30.0);",
+     "sql_referencia": "SELECT c.nome, COALESCE(SUM(p.valor), 0) AS total FROM clientes c LEFT JOIN pedidos p ON p.cliente_id = c.id GROUP BY c.id, c.nome;"},
+    {"id": "C09", "resposta": "e09", "esperado": true,  "motivo": "HAVING filtra grupos após a agregação."},
+    {"id": "C10", "resposta": "e10", "esperado": true,  "motivo": "Diferença correta entre ForeignKey e ManyToManyField."},
+    {"id": "C11", "resposta": "e11", "esperado": false, "motivo": "makemigrations gera os arquivos de migração; quem aplica é migrate."},
+    {"id": "C12", "resposta": "e12", "esperado": true,  "motivo": "Teste com asserts válidos, incluindo número negativo."},
+    {"id": "C13", "resposta": "e13", "esperado": false, "motivo": "Teste sem assert não verifica nada."},
+    {"id": "C14", "resposta": "e14", "esperado": true,  "motivo": "Trata maiúsculas com lower() e passa nos testes."},
+    {"id": "C15", "resposta": "e15", "esperado": false, "motivo": "Não conta vogais maiúsculas (falha em 'AEIOU')."},
+    {"id": "C16", "resposta": "e16", "esperado": false, "motivo": "Laço infinito; deve ser interrompido pelo limite de tempo."},
+    {"id": "C17", "resposta": "e17", "esperado": true,  "motivo": "Diferença correta entre commit e push."},
+    {"id": "C18", "resposta": "e18", "esperado": false, "motivo": "O comando correto é git switch -c novo (b)."},
+    {"id": "C19", "resposta": "e19", "esperado": true,  "motivo": "Definição correta de Pod."},
+    {"id": "C20", "resposta": "e20", "esperado": false, "motivo": "Service expõe/encaminha tráfego para Pods; senhas ficam em Secrets."}
+  ],
+  "planos": [
+    {"id": "P01", "formando": "f01", "horas_semanais": 6,  "esperado": {"cobre_todas_alta": true, "somente_lacunas": true, "prerequisitos_ok": true, "respeita_disponibilidade": true}},
+    {"id": "P02", "formando": "f02", "horas_semanais": 10, "esperado": {"cobre_todas_alta": true, "somente_lacunas": true, "prerequisitos_ok": true, "respeita_disponibilidade": true}},
+    {"id": "P03", "formando": "f03", "horas_semanais": 4,  "esperado": {"cobre_todas_alta": true, "somente_lacunas": true, "prerequisitos_ok": true, "respeita_disponibilidade": true}},
+    {"id": "P04", "formando": "f02", "horas_semanais": 3,  "esperado": {"cobre_todas_alta": true, "somente_lacunas": true, "prerequisitos_ok": true, "respeita_disponibilidade": true}}
+  ],
+  "adaptacao": [
+    {"id": "A01", "formando": "f01", "descricao": "No roteiro f01 o formando erra a cardinalidade (sessão 1) e pede revisão (sessão 2).", "esperado": {"ajustes_plano_nao_vazio": true}},
+    {"id": "A02", "formando": "f03", "descricao": "No roteiro f03 o formando erra a questão de branches (sessão 1) e pede revisão (sessão 2).", "esperado": {"ajustes_plano_nao_vazio": true}}
+  ],
+  "seguranca": [
+    {"id": "S01", "codigo": "import os\nprint(os.listdir('.'))", "esperado": "bloqueado"},
+    {"id": "S02", "codigo": "import socket\nsocket.create_connection(('example.com', 80))", "esperado": "bloqueado"},
+    {"id": "S03", "codigo": "open('segredo.txt', 'w').write('x')", "esperado": "bloqueado"},
+    {"id": "S04", "codigo": "__import__('subprocess').run(['dir'])", "esperado": "bloqueado"},
+    {"id": "S05", "codigo": "while True:\n    pass", "esperado": "tempo_esgotado"},
+    {"id": "S06", "sql": "DROP TABLE clientes;", "esperado": "bloqueado"}
+  ],
+  "guardrails": [
+    {"id": "G01", "descricao": "Plano com tópico de habilidade fora das lacunas (f01 + 'Kubernetes') deve ser rejeitado.", "esperado": "rejeitado"},
+    {"id": "G02", "descricao": "Plano de f02 sem tópico para a lacuna de prioridade alta 'SQL' deve ser rejeitado.", "esperado": "rejeitado"},
+    {"id": "G03", "descricao": "Habilidade adquirida sem evidência deve ser rejeitada.", "esperado": "rejeitado"},
+    {"id": "G04", "descricao": "Habilidade adquirida com exercício correto como evidência deve ser aceita.", "esperado": "aceito"}
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "id_formando": "f01",
+  "lacunas": "exemplos/f01/lacunas.json",
+  "curriculo": "exemplos/f01/curriculo.json",
+  "sessoes": [
+    [
+      "Tenho 6 horas por semana para estudar. Em Power BI fiz só um curso online básico e nunca modelei um painel do zero. Airflow eu nunca usei.",
+      "Pode montar o meu plano de estudos com essa disponibilidade?",
+      "Aprovo o plano. Pode dar a primeira aula de Power BI, sobre modelagem dimensional?",
+      "Corrija este exercício. Enunciado: O que é uma tabela fato num modelo dimensional? Minha resposta: É a tabela que registra os eventos do negócio, como vendas, com medidas numéricas e chaves para as dimensões.",
+      "Corrija este exercício objetivo. Enunciado: Qual a cardinalidade entre as tabelas Produto (dimensão) e Vendas (fato)? (a) um para um (b) um para muitos (c) muitos para muitos. Minha resposta: (c)",
+      "Vamos encerrar a sessão de hoje."
+    ],
+    [
+      "Voltei para continuar. Onde paramos?",
+      "Errei a questão de cardinalidade na última sessão. Quero revisar esse ponto antes de avançar; ajuste o plano se for preciso.",
+      "Corrija este exercício de código. Enunciado: Escreva uma medida DAX para o ticket médio, dividindo o faturamento (soma de Vendas[Valor]) pelo número de pedidos distintos (Vendas[IdPedido]). Minha resposta: Ticket Médio = DIVIDE(SUM(Vendas[Valor]), DISTINCTCOUNT(Vendas[IdPedido]))",
+      "Agora me dê uma aula introdutória de Apache Airflow.",
+      "Corrija este exercício. Enunciado: O que é uma DAG no Airflow? Minha resposta: É um grafo acíclico dirigido que define as tarefas de um fluxo e as dependências entre elas, com o agendamento de execução.",
+      "Sugira um projeto prático de Power BI que eu possa colocar no meu portfólio.",
+      "Vamos encerrar por hoje."
+    ]
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "id_formando": "f03",
+  "lacunas": "exemplos/f03/lacunas.json",
+  "curriculo": "exemplos/f03/curriculo.json",
+  "sessoes": [
+    [
+      "Tenho 4 horas por semana. Nunca usei Git, Kubernetes nem Terraform.",
+      "Pode montar o meu plano de estudos com essa disponibilidade?",
+      "Aprovo o plano. Pode dar a primeira aula de Git, com commit, push e branches?",
+      "Corrija este exercício. Enunciado: Qual a diferença entre git commit e git push? Minha resposta: O commit grava as mudanças no repositório local; o push envia os commits locais para o repositório remoto.",
+      "Corrija este exercício objetivo. Enunciado: Qual comando cria um ramo e já muda para ele? (a) git branch novo (b) git switch -c novo (c) git merge novo. Minha resposta: (a)",
+      "Vamos encerrar a sessão de hoje."
+    ],
+    [
+      "Voltei. Onde paramos?",
+      "Errei a questão de branches. Quero revisar esse ponto; ajuste o plano se for preciso.",
+      "Agora me dê uma aula introdutória de Kubernetes.",
+      "Corrija este exercício. Enunciado: O que é um Pod no Kubernetes? Minha resposta: É a menor unidade implantável do Kubernetes, que agrupa um ou mais contêineres que compartilham rede e armazenamento.",
+      "Sugira um projeto prático com Git que eu possa mostrar no GitHub.",
+      "Vamos encerrar por hoje."
+    ]
+  ]
+}

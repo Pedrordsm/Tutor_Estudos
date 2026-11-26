@@ -5,3 +5,5 @@ __pycache__/
 dados/
 *.db
 .pytest_cache/
+*.egg-info/
+saidas/**/*.db
